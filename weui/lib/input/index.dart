@@ -41,6 +41,8 @@ class WeInput extends StatefulWidget {
   // onChange
   final Function(String value) onChange;
 
+  TextEditingController controller = TextEditingController();
+
   WeInput({
     this.key,
     label,
@@ -59,7 +61,8 @@ class WeInput extends StatefulWidget {
     this.autofocus = false,
     this.labelWidth = 80.0,
     this.textInputAction,
-    this.onChange
+    this.onChange,
+    this.controller
   }) : this.label = toTextWidget(label, 'label'),
       super(key: key);
 
@@ -68,7 +71,7 @@ class WeInput extends StatefulWidget {
 }
 
 class WeInputState extends State<WeInput> {
-  final TextEditingController controller = TextEditingController();
+  //final TextEditingController controller = TextEditingController();
   TextInputAction textInputAction;
 
   WeInputState() {
@@ -110,7 +113,7 @@ class WeInputState extends State<WeInput> {
 
   void _setValue(value) {
     setState(() {
-      controller.text = value;
+      widget.controller.text = value;
     });
   }
 
@@ -140,7 +143,7 @@ class WeInputState extends State<WeInput> {
     // footer
     Widget footer;
     if (widget.clearable) {
-      footer = controller.text.length > 0 ? clearWidget : null;
+      footer = widget.controller.text.length > 0 ? clearWidget : null;
     } else {
       footer = widget.footer;
     }
@@ -162,7 +165,7 @@ class WeInputState extends State<WeInput> {
           textInputAction: textInputAction,
           obscureText: widget.obscureText,
           style: widget.style,
-          controller: controller,
+          controller: widget.controller,
           focusNode: widget.focusNode,
           onChanged: _onChange,
           maxLines: widget.maxLines,
